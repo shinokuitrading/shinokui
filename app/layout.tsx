@@ -3,6 +3,7 @@ import "./globals.css";
 import { siteBaseUrl } from "@/lib/seo";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { AgeGate } from "@/components/AgeGate";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <AgeGate />
         </NextIntlClientProvider>
       </body>
     </html>

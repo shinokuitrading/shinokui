@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     "",
     "/about",
+    "/brand",
     "/products",
     "/news",
     "/privacy"
@@ -27,6 +28,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5
   }));
 
+  const brandPages: MetadataRoute.Sitemap = [
+    "/brand/tsukinoi",
+    "/brand/shine-muscat"
+  ].map((path) => ({
+    url: `${base}${path}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.5
+  }));
+
   const newsItems = await getAllNews();
   const newsPages = newsItems.map((n) => ({
     url: `${base}/news/${n.slug}`,
@@ -35,5 +46,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5
   }));
 
-  return [...staticPages, ...productPages, ...newsPages];
+  return [...staticPages, ...brandPages, ...productPages, ...newsPages];
 }
