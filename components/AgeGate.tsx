@@ -3,20 +3,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { buttonStyles } from "@/components/buttons";
-import {
-  AGE_VERIFICATION_COOKIE,
-  AGE_VERIFICATION_MAX_AGE_SECONDS
-} from "@/lib/ageVerification";
 
-type AgeGateProps = {
-  initiallyVerified: boolean;
-};
-
-export function AgeGate({ initiallyVerified }: AgeGateProps) {
+export function AgeGate() {
   const t = useTranslations("ageGate");
-  const [isOpen, setIsOpen] = useState(!initiallyVerified);
+  const [isOpen, setIsOpen] = useState(true);
   const [isLeaving, setIsLeaving] = useState(false);
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const reopenAfterReturning = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener("pageshow", reopenAfterReturning);
+
+    return () => {
+      window.removeEventListener("pageshow", reopenAfterReturning);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen) {
@@ -35,12 +41,6 @@ export function AgeGate({ initiallyVerified }: AgeGateProps) {
   if (!isOpen) {
     return null;
   }
-
-  const confirmAge = () => {
-    const secure = window.location.protocol === "https:" ? "; Secure" : "";
-    document.cookie = `${AGE_VERIFICATION_COOKIE}=1; Path=/; Max-Age=${AGE_VERIFICATION_MAX_AGE_SECONDS}; SameSite=Lax${secure}`;
-    setIsOpen(false);
-  };
 
   const leaveSite = () => {
     setIsLeaving(true);
@@ -78,7 +78,7 @@ export function AgeGate({ initiallyVerified }: AgeGateProps) {
             ref={confirmButtonRef}
             className={buttonStyles({ className: "w-full" })}
             type="button"
-            onClick={confirmAge}
+            onClick={() => setIsOpen(false)}
           >
             {t("confirm")}
           </button>
