@@ -27,6 +27,9 @@ export function ManufacturerProductDetails({
   const staffVoice = isJapanese
     ? details.staff_voice_ja ?? details.staff_voice
     : details.staff_voice;
+  const staffVoiceSubtitle = isJapanese
+    ? details.staff_voice_subtitle_ja ?? details.staff_voice_subtitle
+    : details.staff_voice_subtitle;
 
   return (
     <section
@@ -51,14 +54,16 @@ export function ManufacturerProductDetails({
         ))}
       </div>
 
-      <div className="mt-6">
-        <h3 className="font-serif text-base text-textDark">{storyTitle}</h3>
-        <div className="mt-2 space-y-2 text-sm leading-relaxed text-textMuted">
-          {story.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
+      {storyTitle && story?.length ? (
+        <div className="mt-6">
+          <h3 className="font-serif text-base text-textDark">{storyTitle}</h3>
+          <div className="mt-2 space-y-2 text-sm leading-relaxed text-textMuted">
+            {story.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <div className="mt-8 overflow-hidden rounded-xl border border-oceanBrown/20">
         <table className="w-full table-fixed border-collapse text-left text-xs sm:text-sm">
@@ -92,6 +97,11 @@ export function ManufacturerProductDetails({
         <h3 className="border-b border-oceanBrown/50 pb-2 font-serif text-sm text-oceanBrown">
           {staffVoiceTitle}
         </h3>
+        {staffVoiceSubtitle ? (
+          <h4 className="mt-4 font-serif text-sm text-textDark">
+            {staffVoiceSubtitle}
+          </h4>
+        ) : null}
         <div className="mt-4 space-y-2 text-sm leading-relaxed text-textMuted">
           {staffVoice.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>

@@ -3,9 +3,9 @@ import productsData from "@/data/products.json";
 export type ManufacturerProductDetails = {
   intro: string[];
   intro_ja?: string[];
-  story_title: string;
+  story_title?: string;
   story_title_ja?: string;
-  story: string[];
+  story?: string[];
   story_ja?: string[];
   specifications: Array<{
     label: string;
@@ -15,6 +15,8 @@ export type ManufacturerProductDetails = {
   }>;
   staff_voice: string[];
   staff_voice_ja?: string[];
+  staff_voice_subtitle?: string;
+  staff_voice_subtitle_ja?: string;
 };
 
 export type Product = {
