@@ -39,7 +39,8 @@
       "蒸し物や薄味の和食",
       "油っこい料理や濃い味は不向き"
     ],
-    "image": "/images/和の月39.jpg"
+    "image": "/images/和の月39.jpg",
+    "card_image_position_y": 88
   },
   {
     "slug": "wano-tsuki-60",
@@ -81,7 +82,8 @@
       "醤油・塩味の和食",
       "ラーメン、餃子など適度な脂"
     ],
-    "image": "/images/和の月60.jpg"
+    "image": "/images/和の月60.jpg",
+    "card_image_position_y": 80
   },
   {
     "slug": "hikoichi-junmai-daiginjo",
@@ -123,7 +125,8 @@
       "懐石料理、コース",
       "単独でじっくり"
     ],
-    "image": "/images/彦市 純米大吟醸.jpg"
+    "image": "/images/彦市 純米大吟醸.jpg",
+    "card_image_position_y": 76
   },
   {
     "slug": "hikoichi-junmai-ginjo",
@@ -165,7 +168,8 @@
       "定食、焼き物",
       "幅広い料理に対応"
     ],
-    "image": "/images/彦市純吟.jpg"
+    "image": "/images/彦市純吟.jpg",
+    "card_image_position_y": 76
   },
   {
     "slug": "umeshu-sake-base",
@@ -204,7 +208,8 @@
     "pairing_ja": [
       "さっぱりした前菜、軽食"
     ],
-    "image": "/images/梅酒　恋梅720.jpg"
+    "image": "/images/梅酒　恋梅720.jpg",
+    "card_image_position_y": 83
   },
   {
     "slug": "aqua-300",
@@ -246,6 +251,7 @@
       "チーズ、軽食",
       "濃い味の料理は不向き"
     ],
-    "image": "/images/アクア300.jpg"
+    "image": "/images/アクア300.jpg",
+    "card_image_position_y": 88
   }
 ]

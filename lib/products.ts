@@ -15,6 +15,7 @@ export type Product = {
   serving?: string | string[];
   serving_ja?: string | string[];
   image: string;
+  card_image_position_y?: number;
 };
 
 export function getAllProducts(): Product[] {

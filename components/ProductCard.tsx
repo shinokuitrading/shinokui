@@ -33,7 +33,10 @@ export function ProductCard({
           alt={primaryName}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-          className="object-cover object-center group-hover:scale-[1.02] transition-transform"
+          className="object-cover group-hover:scale-[1.02] transition-transform"
+          style={{
+            objectPosition: `center ${product.card_image_position_y ?? 80}%`
+          }}
         />
       </div>
       <div className="px-4 py-4 space-y-1">
