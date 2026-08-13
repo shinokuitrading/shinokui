@@ -3,10 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { buttonStyles } from "@/components/buttons";
+import {
+  AGE_VERIFICATION_COOKIE,
+  AGE_VERIFICATION_MAX_AGE_SECONDS
+} from "@/lib/ageVerification";
 
-export function AgeGate() {
+type AgeGateProps = {
+  initiallyVerified: boolean;
+};
+
+export function AgeGate({ initiallyVerified }: AgeGateProps) {
   const t = useTranslations("ageGate");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(!initiallyVerified);
   const [isLeaving, setIsLeaving] = useState(false);
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -27,6 +35,12 @@ export function AgeGate() {
   if (!isOpen) {
     return null;
   }
+
+  const confirmAge = () => {
+    const secure = window.location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = `${AGE_VERIFICATION_COOKIE}=1; Path=/; Max-Age=${AGE_VERIFICATION_MAX_AGE_SECONDS}; SameSite=Lax${secure}`;
+    setIsOpen(false);
+  };
 
   const leaveSite = () => {
     setIsLeaving(true);
@@ -64,7 +78,7 @@ export function AgeGate() {
             ref={confirmButtonRef}
             className={buttonStyles({ className: "w-full" })}
             type="button"
-            onClick={() => setIsOpen(false)}
+            onClick={confirmAge}
           >
             {t("confirm")}
           </button>

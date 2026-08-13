@@ -119,9 +119,12 @@ export default async function HomePage() {
             <p className="text-sm text-textMuted leading-relaxed">
               {t("home.aboutShortBody")}
             </p>
-            <Button variant="ghost">
-              <a href="/about">{t("home.aboutLink")}</a>
-            </Button>
+            <Link
+              href="/about"
+              className={buttonStyles({ variant: "ghost" })}
+            >
+              {t("home.aboutLink")}
+            </Link>
           </div>
           <div className="relative h-56 md:h-72 rounded-3xl overflow-hidden bg-oceanBrown/5">
             <Image

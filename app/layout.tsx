@@ -6,6 +6,8 @@ import { Footer } from "@/components/Footer";
 import { AgeGate } from "@/components/AgeGate";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
+import { AGE_VERIFICATION_COOKIE } from "@/lib/ageVerification";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("site");
@@ -23,6 +25,8 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const ageVerified =
+    cookies().get(AGE_VERIFICATION_COOKIE)?.value === "1";
 
   return (
     <html lang={locale}>
@@ -31,7 +35,7 @@ export default async function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
-          <AgeGate />
+          <AgeGate initiallyVerified={ageVerified} />
         </NextIntlClientProvider>
       </body>
     </html>
