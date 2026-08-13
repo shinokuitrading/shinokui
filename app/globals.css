@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  font-size: 125%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-ivory text-textDark subpixel-antialiased font-sans;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
+  font-weight: 500;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  text-rendering: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
+  font-weight: 600;
+}
+
+a {
+  @apply transition-colors;
+}
+
+.section-padding {
+  @apply px-6 py-16 md:px-16 md:py-20;
+}
+
+.section-narrow {
+  @apply max-w-5xl mx-auto;
+}
