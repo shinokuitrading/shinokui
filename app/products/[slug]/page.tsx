@@ -35,6 +35,9 @@ export default async function ProductDetailPage({ params }: Props) {
     locale === "ja" ? product.pairing_ja ?? product.pairing : product.pairing;
   const serving =
     locale === "ja" ? product.serving_ja ?? product.serving : product.serving;
+  const hasManufacturerSpecifications = Boolean(
+    product.manufacturer_details?.specifications?.length
+  );
 
   const renderContent = (value?: string | string[]) => {
     if (!value) return null;
@@ -78,7 +81,7 @@ export default async function ProductDetailPage({ params }: Props) {
             {secondaryName}
           </p>
 
-          {!product.manufacturer_details && (
+          {!hasManufacturerSpecifications && (
             <div className="grid sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-xs text-textMuted mb-1">

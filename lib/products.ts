@@ -7,13 +7,13 @@ export type ManufacturerProductDetails = {
   story_title_ja?: string;
   story?: string[];
   story_ja?: string[];
-  specifications: Array<{
+  specifications?: Array<{
     label: string;
     label_ja?: string;
     value: string;
     value_ja?: string;
   }>;
-  staff_voice: string[];
+  staff_voice?: string[];
   staff_voice_ja?: string[];
   staff_voice_subtitle?: string;
   staff_voice_subtitle_ja?: string;
