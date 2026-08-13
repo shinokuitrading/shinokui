@@ -78,20 +78,22 @@ export default async function ProductDetailPage({ params }: Props) {
             {secondaryName}
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-4 text-sm">
-            <div>
-              <p className="text-xs text-textMuted mb-1">
-                {t("products.abvLabel")}
-              </p>
-              <p className="text-textDark">{product.abv}%</p>
+          {!product.manufacturer_details && (
+            <div className="grid sm:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-xs text-textMuted mb-1">
+                  {t("products.abvLabel")}
+                </p>
+                <p className="text-textDark">{product.abv}%</p>
+              </div>
+              <div>
+                <p className="text-xs text-textMuted mb-1">
+                  {t("products.volumeLabel")}
+                </p>
+                <p className="text-textDark">{product.volume_ml}ml</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-textMuted mb-1">
-                {t("products.volumeLabel")}
-              </p>
-              <p className="text-textDark">{product.volume_ml}ml</p>
-            </div>
-          </div>
+          )}
 
           {product.manufacturer_details ? (
             <ManufacturerProductDetails
