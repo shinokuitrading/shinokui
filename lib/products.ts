@@ -1,5 +1,22 @@
 import productsData from "@/data/products.json";
 
+export type ManufacturerProductDetails = {
+  intro: string[];
+  intro_ja?: string[];
+  story_title: string;
+  story_title_ja?: string;
+  story: string[];
+  story_ja?: string[];
+  specifications: Array<{
+    label: string;
+    label_ja?: string;
+    value: string;
+    value_ja?: string;
+  }>;
+  staff_voice: string[];
+  staff_voice_ja?: string[];
+};
+
 export type Product = {
   slug: string;
   name_zh: string;
@@ -16,6 +33,7 @@ export type Product = {
   serving_ja?: string | string[];
   image: string;
   card_image_position_y?: number;
+  manufacturer_details?: ManufacturerProductDetails;
 };
 
 export function getAllProducts(): Product[] {

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
+import { ManufacturerProductDetails } from "@/components/ManufacturerProductDetails";
 import { getAllProducts, getProductBySlug } from "@/lib/products";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
@@ -92,26 +93,39 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           </div>
 
-          <div>
-            <p className="text-xs text-textMuted mb-1">
-              {t("products.detailSpecs")}
-            </p>
-            {renderContent(description)}
-          </div>
+          {product.manufacturer_details ? (
+            <ManufacturerProductDetails
+              details={product.manufacturer_details}
+              locale={locale}
+              title={t("products.descriptionTitle")}
+              subtitle={t("products.descriptionSubtitle")}
+              specificationsLabel={t("products.manufacturerSpecifications")}
+              staffVoiceTitle={t("products.staffVoice")}
+            />
+          ) : (
+            <>
+              <div>
+                <p className="text-xs text-textMuted mb-1">
+                  {t("products.detailSpecs")}
+                </p>
+                {renderContent(description)}
+              </div>
 
-          <div>
-            <p className="text-xs text-textMuted mb-1">
-              {t("products.pairing")}
-            </p>
-            {renderContent(pairing)}
-          </div>
+              <div>
+                <p className="text-xs text-textMuted mb-1">
+                  {t("products.pairing")}
+                </p>
+                {renderContent(pairing)}
+              </div>
 
-          <div>
-            <p className="text-xs text-textMuted mb-1">
-              {t("products.serving")}
-            </p>
-            {renderContent(serving ?? t("products.servingNote"))}
-          </div>
+              <div>
+                <p className="text-xs text-textMuted mb-1">
+                  {t("products.serving")}
+                </p>
+                {renderContent(serving ?? t("products.servingNote"))}
+              </div>
+            </>
+          )}
 
         </div>
       </div>
