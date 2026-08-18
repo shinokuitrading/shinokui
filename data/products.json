@@ -16,7 +16,8 @@
           "original": 4500
         },
         "case": {
-          "current": 51300
+          "current": 51300,
+          "quantity": 12
         }
       },
       {
@@ -27,7 +28,8 @@
           "original": 3980
         },
         "case": {
-          "current": 45400
+          "current": 45400,
+          "quantity": 12
         }
       }
     ],
@@ -153,7 +155,8 @@
           "original": 1800
         },
         "case": {
-          "current": 19440
+          "current": 19440,
+          "quantity": 12
         }
       }
     ],
@@ -271,7 +274,8 @@
           "original": 1280
         },
         "case": {
-          "current": 13800
+          "current": 13800,
+          "quantity": 12
         }
       }
     ],
@@ -389,7 +393,8 @@
           "original": 1350
         },
         "case": {
-          "current": 14600
+          "current": 14600,
+          "quantity": 12
         }
       }
     ],
