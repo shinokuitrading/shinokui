@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
 import { ManufacturerProductDetails } from "@/components/ManufacturerProductDetails";
+import { ProductPricing } from "@/components/ProductPricing";
 import { getAllProducts, getProductBySlug } from "@/lib/products";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
@@ -60,15 +61,34 @@ export default async function ProductDetailPage({ params }: Props) {
 
   return (
     <Section>
-      <div className="grid md:grid-cols-[2fr,3fr] gap-10 items-start">
-        <div className="relative w-full aspect-[3/4] max-w-sm mx-auto rounded-3xl overflow-hidden bg-oceanBrown/5">
-          <Image
-            src={product.image}
-            alt={primaryName}
-            fill
-            sizes="(min-width: 768px) 40vw, 90vw"
-            className="object-contain object-bottom"
-          />
+      <div className="grid items-start gap-10 lg:grid-cols-[2fr,3fr]">
+        <div className="mx-auto w-full max-w-sm">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl bg-oceanBrown/5">
+            <Image
+              src={product.image}
+              alt={primaryName}
+              fill
+              sizes="(min-width: 1024px) 40vw, 90vw"
+              className="object-contain object-bottom"
+            />
+          </div>
+
+          {product.pricing?.length ? (
+            <ProductPricing
+              variants={product.pricing}
+              locale={locale}
+              volumeMl={product.volume_ml}
+              labels={{
+                title: t("products.pricingTitle"),
+                unit: t("products.unitPrice"),
+                regular: t("products.regularPrice"),
+                discount: t("products.discountPrice"),
+                case: t("products.casePrice"),
+                caseWithQuantity: (count) =>
+                  t("products.casePriceWithQuantity", { count })
+              }}
+            />
+          ) : null}
         </div>
         <div className="space-y-4">
           <p className="text-xs uppercase tracking-[0.2em] text-textMuted">

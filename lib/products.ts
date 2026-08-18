@@ -19,6 +19,19 @@ export type ManufacturerProductDetails = {
   staff_voice_subtitle_ja?: string;
 };
 
+export type PriceDetails = {
+  current: number;
+  original?: number;
+  quantity?: number;
+};
+
+export type ProductPriceVariant = {
+  label_zh?: string;
+  label_ja?: string;
+  unit: PriceDetails;
+  case: PriceDetails;
+};
+
 export type Product = {
   slug: string;
   name_zh: string;
@@ -27,6 +40,7 @@ export type Product = {
   volume_ml: number;
   category: string;
   price_note?: string;
+  pricing?: ProductPriceVariant[];
   description: string | string[];
   description_ja?: string | string[];
   pairing: string | string[];
