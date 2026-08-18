@@ -12,11 +12,12 @@
         "label_zh": "有盒",
         "label_ja": "箱入り",
         "unit": {
-          "current": 4300,
-          "original": 4500
+          "current": 4500,
+          "original": 4800
         },
         "case": {
           "current": 51300,
+          "original": 57600,
           "quantity": 12
         }
       },
@@ -24,11 +25,12 @@
         "label_zh": "無盒",
         "label_ja": "箱なし",
         "unit": {
-          "current": 3800,
-          "original": 3980
+          "current": 3980,
+          "original": 4200
         },
         "case": {
           "current": 45400,
+          "original": 50400,
           "quantity": 12
         }
       }
@@ -151,11 +153,12 @@
     "pricing": [
       {
         "unit": {
-          "current": 1700,
-          "original": 1800
+          "current": 1800,
+          "original": 1980
         },
         "case": {
           "current": 19440,
+          "original": 23760,
           "quantity": 12
         }
       }
@@ -270,11 +273,12 @@
     "pricing": [
       {
         "unit": {
-          "current": 1200,
-          "original": 1280
+          "current": 1280,
+          "original": 1380
         },
         "case": {
           "current": 13800,
+          "original": 16560,
           "quantity": 12
         }
       }
@@ -389,11 +393,12 @@
     "pricing": [
       {
         "unit": {
-          "current": 1280,
-          "original": 1350
+          "current": 1350,
+          "original": 1480
         },
         "case": {
           "current": 14600,
+          "original": 17760,
           "quantity": 12
         }
       }
@@ -509,7 +514,8 @@
         },
         "case": {
           "current": 5500,
-          "original": 5980,
+          "original": 6400,
+          "preDiscount": 5980,
           "quantity": 20
         }
       }

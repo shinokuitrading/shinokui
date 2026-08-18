@@ -6,6 +6,10 @@ type PricingLabels = {
   unit: string;
   regular: string;
   discount: string;
+  preDiscount: string;
+  caseRegular: string;
+  casePreDiscount: string;
+  caseDiscount: string;
   case: string;
   caseWithQuantity: (count: number) => string;
 };
@@ -23,31 +27,47 @@ function formatPrice(value: number) {
 
 function PriceAmounts({
   price,
-  labels
+  regularLabel,
+  discountLabel,
+  preDiscountLabel
 }: {
   price: PriceDetails;
-  labels: Pick<PricingLabels, "regular" | "discount">;
+  regularLabel: string;
+  discountLabel: string;
+  preDiscountLabel: string;
 }) {
-  const isDiscounted = price.original !== undefined;
+  const isDiscounted =
+    price.original !== undefined || price.preDiscount !== undefined;
 
   return (
     <div className="ml-auto flex flex-wrap items-end justify-end gap-x-3 gap-y-1">
       <div>
         <span className="block text-[0.65rem] leading-none text-textMuted">
-          {isDiscounted ? labels.discount : labels.regular}
+          {isDiscounted ? discountLabel : regularLabel}
         </span>
         <strong className="mt-1 block whitespace-nowrap text-lg leading-none tabular-nums text-oceanBrown sm:text-xl">
           {formatPrice(price.current)}
         </strong>
       </div>
 
-      {isDiscounted ? (
+      {price.preDiscount !== undefined ? (
         <div>
           <span className="block text-[0.65rem] leading-none text-textMuted">
-            {labels.regular}
+            {preDiscountLabel}
           </span>
           <del className="mt-1 block whitespace-nowrap text-xs leading-none tabular-nums text-textMuted/75 decoration-textMuted/70">
-            {formatPrice(price.original!)}
+            {formatPrice(price.preDiscount)}
+          </del>
+        </div>
+      ) : null}
+
+      {price.original !== undefined ? (
+        <div>
+          <span className="block text-[0.65rem] leading-none text-textMuted">
+            {regularLabel}
+          </span>
+          <del className="mt-1 block whitespace-nowrap text-xs leading-none tabular-nums text-textMuted/75 decoration-textMuted/70">
+            {formatPrice(price.original)}
           </del>
         </div>
       ) : null}
@@ -109,14 +129,24 @@ export function ProductPricing({
                       {volumeMl}ML
                     </p>
                   </div>
-                  <PriceAmounts price={variant.unit} labels={labels} />
+                  <PriceAmounts
+                    price={variant.unit}
+                    regularLabel={labels.regular}
+                    discountLabel={labels.discount}
+                    preDiscountLabel={labels.preDiscount}
+                  />
                 </div>
 
                 <div className="flex flex-wrap items-end justify-between gap-3 py-3">
                   <p className="text-xs font-medium text-textDark">
                     {caseLabel}
                   </p>
-                  <PriceAmounts price={variant.case} labels={labels} />
+                  <PriceAmounts
+                    price={variant.case}
+                    regularLabel={labels.caseRegular}
+                    discountLabel={labels.caseDiscount}
+                    preDiscountLabel={labels.casePreDiscount}
+                  />
                 </div>
               </div>
             </div>

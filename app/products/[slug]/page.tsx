@@ -83,6 +83,10 @@ export default async function ProductDetailPage({ params }: Props) {
                 unit: t("products.unitPrice"),
                 regular: t("products.regularPrice"),
                 discount: t("products.discountPrice"),
+                preDiscount: t("products.preDiscountPrice"),
+                caseRegular: t("products.caseRegularPrice"),
+                casePreDiscount: t("products.casePreDiscountPrice"),
+                caseDiscount: t("products.caseDiscountPrice"),
                 case: t("products.casePrice"),
                 caseWithQuantity: (count) =>
                   t("products.casePriceWithQuantity", { count })

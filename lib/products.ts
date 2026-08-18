@@ -22,6 +22,7 @@ export type ManufacturerProductDetails = {
 export type PriceDetails = {
   current: number;
   original?: number;
+  preDiscount?: number;
   quantity?: number;
 };
 
