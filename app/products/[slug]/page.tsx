@@ -9,6 +9,10 @@ import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import {
+  RelatedReading,
+  type RelatedReadingItem
+} from "@/components/RelatedReading";
+import {
   absoluteUrl,
   brandName,
   createSeoMetadata,
@@ -20,6 +24,59 @@ import {
 
 type Props = {
   params: { slug: string };
+};
+
+const relatedArticlesByProduct: Record<string, RelatedReadingItem[]> = {
+  "wano-tsuki-39": [
+    {
+      title: "生酛是什麼？從和之月39認識傳統日本酒釀造",
+      href: "/news/kimoto-sake-wanotsuki-39"
+    },
+    {
+      title: "月之井酒造店｜來自日本茨城大洗的百年酒藏",
+      href: "/news/tsukinoi-sake-brewery-oarai-1865"
+    }
+  ],
+  "hikoichi-junmai-daiginjo": [
+    {
+      title: "純米吟釀與純米大吟釀差在哪？一次看懂日本酒分類",
+      href: "/news/junmai-ginjo-vs-junmai-daiginjo"
+    },
+    {
+      title: "月之井酒造店｜來自日本茨城大洗的百年酒藏",
+      href: "/news/tsukinoi-sake-brewery-oarai-1865"
+    }
+  ],
+  "hikoichi-junmai-ginjo": [
+    {
+      title: "純米吟釀與純米大吟釀差在哪？一次看懂日本酒分類",
+      href: "/news/junmai-ginjo-vs-junmai-daiginjo"
+    },
+    {
+      title: "月之井酒造店｜來自日本茨城大洗的百年酒藏",
+      href: "/news/tsukinoi-sake-brewery-oarai-1865"
+    }
+  ],
+  "aqua-300": [
+    {
+      title: "發泡清酒是什麼？AQUA 氣泡清酒特色與喝法一次看懂",
+      href: "/news/sparkling-sake-aqua-guide"
+    },
+    {
+      title: "月之井酒造店｜來自日本茨城大洗的百年酒藏",
+      href: "/news/tsukinoi-sake-brewery-oarai-1865"
+    }
+  ],
+  "umeshu-sake-base": [
+    {
+      title: "梅酒怎麼喝？加冰、冷飲、氣泡水與戀梅推薦喝法一次看懂",
+      href: "/news/umeshu-how-to-drink-koiume"
+    },
+    {
+      title: "月之井酒造店｜來自日本茨城大洗的百年酒藏",
+      href: "/news/tsukinoi-sake-brewery-oarai-1865"
+    }
+  ]
 };
 
 export function generateStaticParams() {
@@ -268,6 +325,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         </div>
       </div>
+      <RelatedReading items={relatedArticlesByProduct[product.slug]} />
       </Section>
     </>
   );

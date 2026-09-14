@@ -5,6 +5,7 @@ import { BrandImageCarousel } from "@/components/BrandImageCarousel";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
+import { RelatedReading } from "@/components/RelatedReading";
 import { absoluteUrl, createSeoMetadata, siteBaseUrl } from "@/lib/seo";
 
 const shineMuscatImages = [
@@ -159,6 +160,31 @@ export default async function BrandDetailPage({
             )}
           </div>
         </div>
+        <RelatedReading
+          title="月之井酒造與日本酒知識"
+          items={[
+            {
+              title: "月之井酒造店｜來自日本茨城大洗的百年酒藏",
+              href: "/news/tsukinoi-sake-brewery-oarai-1865"
+            },
+            {
+              title: "生酛是什麼？從和之月39認識傳統日本酒釀造",
+              href: "/news/kimoto-sake-wanotsuki-39"
+            },
+            {
+              title: "純米吟釀與純米大吟釀差在哪？",
+              href: "/news/junmai-ginjo-vs-junmai-daiginjo"
+            },
+            {
+              title: "發泡清酒是什麼？",
+              href: "/news/sparkling-sake-aqua-guide"
+            },
+            {
+              title: "梅酒怎麼喝？",
+              href: "/news/umeshu-how-to-drink-koiume"
+            }
+          ]}
+        />
         </Section>
       </>
     );
