@@ -13,6 +13,7 @@ import {
   brandName,
   createSeoMetadata,
   getProductSeo,
+  organizationName,
   productsSeo,
   siteBaseUrl
 } from "@/lib/seo";
@@ -96,6 +97,35 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const productUrl = absoluteUrl(`/products/${product.slug}`);
   const category = product.category.includes("梅酒") ? "梅酒" : "日本酒";
+  const offers = (product.pricing ?? []).flatMap((variant) => {
+    const variantName = variant.label_zh ? `（${variant.label_zh}）` : "";
+    const seller = {
+      "@type": "Organization",
+      name: organizationName,
+      url: `${siteBaseUrl}/`
+    };
+
+    return [
+      {
+        "@type": "Offer",
+        name: `${seo.h1}${variantName}－單瓶 ${product.volume_ml}ml`,
+        price: variant.unit.current,
+        priceCurrency: "TWD",
+        url: productUrl,
+        seller
+      },
+      {
+        "@type": "Offer",
+        name: `${seo.h1}${variantName}－整箱${
+          variant.case.quantity ? ` ${variant.case.quantity} 瓶` : ""
+        }`,
+        price: variant.case.current,
+        priceCurrency: "TWD",
+        url: productUrl,
+        seller
+      }
+    ];
+  });
 
   return (
     <>
@@ -111,7 +141,8 @@ export default async function ProductDetailPage({ params }: Props) {
             description: seo.description,
             brand: { "@type": "Brand", name: brandName },
             category,
-            url: productUrl
+            url: productUrl,
+            offers
           },
           {
             "@context": "https://schema.org",
