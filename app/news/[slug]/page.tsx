@@ -26,13 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const { meta } = await getNewsBySlug(params.slug);
     return createSeoMetadata({
-      title: `${meta.title}｜信億尉貿易`,
+      title: meta.seoTitle ?? `${meta.title}｜信億尉貿易`,
       description: meta.excerpt,
       path: `/news/${meta.slug}`,
-      image: defaultOgImage,
+      image: meta.image ?? defaultOgImage,
       imageAlt: meta.title,
       type: "article",
-      publishedTime: meta.date || undefined
+      publishedTime: meta.date || undefined,
+      modifiedTime: meta.dateModified
     });
   } catch {
     return createSeoMetadata({
@@ -61,10 +62,13 @@ export default async function NewsDetailPage({
             {
               "@context": "https://schema.org",
               "@type": "NewsArticle",
-              headline: meta.title,
+              headline: meta.seoTitle ?? meta.title,
               description: meta.excerpt,
-              image: [absoluteUrl(defaultOgImage)],
+              image: [absoluteUrl(meta.image ?? defaultOgImage)],
               ...(meta.date ? { datePublished: meta.date } : {}),
+              ...(meta.dateModified
+                ? { dateModified: meta.dateModified }
+                : {}),
               author: {
                 "@type": "Organization",
                 name: organizationName,

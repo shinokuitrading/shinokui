@@ -11,6 +11,9 @@ export type NewsMeta = {
   title: string;
   date: string;
   excerpt: string;
+  seoTitle?: string;
+  image?: string;
+  dateModified?: string;
 };
 
 async function resolveNewsPath(slug: string, locale: Locale) {
@@ -76,7 +79,9 @@ export async function getAllNews(
       slug,
       title,
       date: dateString,
-      excerpt
+      excerpt,
+      seoTitle: (data as any).seoTitle,
+      image: (data as any).image
     };
 
     posts.push(meta);
@@ -108,6 +113,15 @@ export async function getNewsBySlug(
     dateString = rawDate;
   }
 
+  const rawDateModified = (data as any).dateModified;
+  let dateModified = "";
+
+  if (rawDateModified instanceof Date) {
+    dateModified = rawDateModified.toISOString().slice(0, 10);
+  } else if (typeof rawDateModified === "string") {
+    dateModified = rawDateModified;
+  }
+
   return {
     meta: {
       slug,
@@ -117,7 +131,10 @@ export async function getNewsBySlug(
       date: dateString,
       excerpt: resolved.localized
         ? (data as any).excerpt ?? ""
-        : getLocalizedValue(data, locale, "excerpt", "")
+        : getLocalizedValue(data, locale, "excerpt", ""),
+      seoTitle: (data as any).seoTitle,
+      image: (data as any).image,
+      dateModified: dateModified || undefined
     },
     content: mdx.content
   };
