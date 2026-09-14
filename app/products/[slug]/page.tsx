@@ -6,6 +6,16 @@ import { ProductPricing } from "@/components/ProductPricing";
 import { getAllProducts, getProductBySlug } from "@/lib/products";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import {
+  absoluteUrl,
+  brandName,
+  createSeoMetadata,
+  getProductSeo,
+  productsSeo,
+  siteBaseUrl
+} from "@/lib/seo";
 
 type Props = {
   params: { slug: string };
@@ -15,12 +25,37 @@ export function generateStaticParams() {
   return getAllProducts().map((p) => ({ slug: p.slug }));
 }
 
+export function generateMetadata({ params }: Props): Metadata {
+  const product = getProductBySlug(params.slug);
+  const seo = getProductSeo(params.slug);
+
+  if (!product || !seo) {
+    return createSeoMetadata({
+      title: "找不到商品｜信億尉貿易有限公司",
+      description: "此商品頁面不存在。",
+      path: `/products/${params.slug}`,
+      noIndex: true
+    });
+  }
+
+  return createSeoMetadata({
+    title: seo.title,
+    description: seo.description,
+    path: `/products/${product.slug}`,
+    image: product.image,
+    imageAlt: seo.imageAlt
+  });
+}
+
 export default async function ProductDetailPage({ params }: Props) {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations();
   const product = getProductBySlug(params.slug);
 
   if (!product) return notFound();
+
+  const seo = getProductSeo(product.slug);
+  if (!seo) return notFound();
 
   const primaryName = locale === "ja" ? product.name_jp : product.name_zh;
   const secondaryName = locale === "ja" ? product.name_zh : product.name_jp;
@@ -59,14 +94,58 @@ export default async function ProductDetailPage({ params }: Props) {
     );
   };
 
+  const productUrl = absoluteUrl(`/products/${product.slug}`);
+  const category = product.category.includes("梅酒") ? "梅酒" : "日本酒";
+
   return (
-    <Section>
+    <>
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "@id": `${productUrl}#product`,
+            name: seo.h1,
+            alternateName: seo.alternateNames,
+            image: [absoluteUrl(product.image)],
+            description: seo.description,
+            brand: { "@type": "Brand", name: brandName },
+            category,
+            url: productUrl
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "首頁",
+                item: `${siteBaseUrl}/`
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "月之井清酒產品",
+                item: absoluteUrl(productsSeo.path)
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: seo.h1,
+                item: productUrl
+              }
+            ]
+          }
+        ]}
+      />
+      <Section>
       <div className="grid items-start gap-10 lg:grid-cols-[2fr,3fr]">
         <div className="mx-auto w-full max-w-sm">
           <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl bg-oceanBrown/5">
             <Image
               src={product.image}
-              alt={primaryName}
+              alt={locale === "zh-TW" ? seo.imageAlt : primaryName}
               fill
               sizes="(min-width: 1024px) 40vw, 90vw"
               className="object-contain object-bottom"
@@ -99,7 +178,7 @@ export default async function ProductDetailPage({ params }: Props) {
             {categoryLabel}
           </p>
           <h1 className="text-xl font-serif text-textDark">
-            {primaryName}
+            {locale === "zh-TW" ? seo.h1 : primaryName}
           </h1>
           <p className="text-sm text-textMuted mb-2">
             {secondaryName}
@@ -158,6 +237,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         </div>
       </div>
-    </Section>
+      </Section>
+    </>
   );
 }

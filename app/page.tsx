@@ -9,6 +9,19 @@ import { ProductCard } from "@/components/ProductCard";
 import { NewsCard } from "@/components/NewsCard";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import {
+  absoluteUrl,
+  createSeoMetadata,
+  homeSeo,
+  organizationAlternateName,
+  organizationName,
+  siteBaseUrl
+} from "@/lib/seo";
+import site from "@/data/site.json";
+
+export const metadata: Metadata = createSeoMetadata(homeSeo);
 
 export default async function HomePage() {
   const locale = (await getLocale()) as Locale;
@@ -23,6 +36,32 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": `${siteBaseUrl}/#organization`,
+            name: organizationName,
+            alternateName: organizationAlternateName,
+            url: absoluteUrl("/"),
+            logo: absoluteUrl("/images/Logo.jpg"),
+            telephone: "03-668-1311",
+            email: site.email,
+            sameAs: [site.social.instagram]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": `${siteBaseUrl}/#website`,
+            url: absoluteUrl("/"),
+            name: organizationName,
+            alternateName: organizationAlternateName,
+            publisher: { "@id": `${siteBaseUrl}/#organization` },
+            inLanguage: "zh-Hant-TW"
+          }
+        ]}
+      />
       <Section className="pt-16 md:pt-20">
         <div className="grid md:grid-cols-[3fr,2fr] gap-10 items-center">
           <div className="space-y-6">

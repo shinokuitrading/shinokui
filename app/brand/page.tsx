@@ -2,6 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import { absoluteUrl, createSeoMetadata } from "@/lib/seo";
+
+const brandPageSeo = {
+  title: "品牌介紹｜月之井酒造店與日本精選品牌｜信億尉貿易",
+  description:
+    "認識信億尉貿易合作品牌，包括創業於1865年的日本茨城縣大洗町月の井酒造店，以及日本精選農產品牌內容。",
+  path: "/brand",
+  image: "/images/tsukinoi_logo.jpeg",
+  imageAlt: "月の井酒造店品牌標誌"
+} as const;
+
+export const metadata: Metadata = createSeoMetadata(brandPageSeo);
 
 export default async function BrandPage() {
   const t = await getTranslations();
@@ -25,7 +39,18 @@ export default async function BrandPage() {
   ];
 
   return (
-    <Section>
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: brandPageSeo.title,
+          description: brandPageSeo.description,
+          url: absoluteUrl(brandPageSeo.path),
+          inLanguage: "zh-Hant-TW"
+        }}
+      />
+      <Section>
       <div className="mb-6">
         <h1 className="text-xl font-serif text-textDark mb-2">
           {t("brandIntro.title")}
@@ -58,6 +83,7 @@ export default async function BrandPage() {
           </Link>
         ))}
       </div>
-    </Section>
+      </Section>
+    </>
   );
 }

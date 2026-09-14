@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { Section } from "@/components/Section";
 import { BrandImageCarousel } from "@/components/BrandImageCarousel";
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import { absoluteUrl, createSeoMetadata, siteBaseUrl } from "@/lib/seo";
 
 const shineMuscatImages = [
   "/images/shine-muscat-01.jpg",
@@ -30,18 +33,100 @@ export function generateStaticParams() {
   return [{ slug: "tsukinoi" }, { slug: "shine-muscat" }];
 }
 
+const brandSeo = {
+  tsukinoi: {
+    title: "月の井酒造店｜茨城縣大洗町日本酒品牌｜信億尉貿易",
+    description:
+      "認識創業於1865年的月の井酒造店。酒藏扎根日本茨城縣大洗町，以當地風土、傳統釀造與長期時間淬鍊月之井日本酒。",
+    image: "/images/tsukinoi_logo.jpeg",
+    imageAlt: "月の井酒造店標誌",
+    name: "月の井酒造店"
+  },
+  "shine-muscat": {
+    title: "日本麝香葡萄品牌介紹｜信億尉貿易",
+    description:
+      "認識日本麝香葡萄的品種歷史、栽培特色、品質標準，以及山梨縣產地風土所帶來的香氣與口感。",
+    image: "/images/shine-muscat-05.jpg",
+    imageAlt: "日本麝香葡萄",
+    name: "日本麝香葡萄"
+  }
+} as const;
+
+export function generateMetadata({
+  params
+}: {
+  params: { slug: string };
+}): Metadata {
+  const seo = brandSeo[params.slug as keyof typeof brandSeo];
+  if (!seo) {
+    return createSeoMetadata({
+      title: "找不到品牌｜信億尉貿易有限公司",
+      description: "此品牌頁面不存在。",
+      path: `/brand/${params.slug}`,
+      noIndex: true
+    });
+  }
+
+  return createSeoMetadata({
+    ...seo,
+    path: `/brand/${params.slug}`
+  });
+}
+
 export default async function BrandDetailPage({
   params
 }: {
   params: { slug: string };
 }) {
   const t = await getTranslations();
+  const seo = brandSeo[params.slug as keyof typeof brandSeo];
+
+  if (!seo) notFound();
+
+  const pageUrl = absoluteUrl(`/brand/${params.slug}`);
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: seo.title,
+      description: seo.description,
+      url: pageUrl,
+      primaryImageOfPage: absoluteUrl(seo.image),
+      inLanguage: "zh-Hant-TW"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "首頁",
+          item: `${siteBaseUrl}/`
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "品牌介紹",
+          item: absoluteUrl("/brand")
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: seo.name,
+          item: pageUrl
+        }
+      ]
+    }
+  ];
 
   if (params.slug === "tsukinoi") {
     return (
-      <Section>
+      <>
+        <JsonLd data={structuredData} />
+        <Section>
         <h1 className="text-xl font-serif text-textDark mb-6">
-          {t("brandIntro.title")}
+          {t("brandIntro.cardTitle")}
         </h1>
         <div className="border border-oceanBrown/10 rounded-xl overflow-hidden bg-ivory/60">
           <div className="relative aspect-[4/3] bg-oceanBrown/5">
@@ -74,7 +159,8 @@ export default async function BrandDetailPage({
             )}
           </div>
         </div>
-      </Section>
+        </Section>
+      </>
     );
   }
 
@@ -89,9 +175,11 @@ export default async function BrandDetailPage({
   }));
 
   return (
-    <Section>
+    <>
+      <JsonLd data={structuredData} />
+      <Section>
       <h1 className="text-xl font-serif text-textDark mb-6">
-        {t("brandIntro.title")}
+        {brand.cardTitle}
       </h1>
       <div className="border border-oceanBrown/10 rounded-xl overflow-hidden bg-ivory/60">
         <BrandImageCarousel
@@ -131,6 +219,7 @@ export default async function BrandDetailPage({
           ))}
         </div>
       </div>
-    </Section>
+      </Section>
+    </>
   );
 }

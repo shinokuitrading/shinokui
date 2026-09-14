@@ -2,6 +2,11 @@ import Image from "next/image";
 import { Section } from "@/components/Section";
 import { OceanDivider } from "@/components/OceanDivider";
 import { getLocale, getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import { absoluteUrl, aboutSeo, createSeoMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = createSeoMetadata(aboutSeo);
 
 export default async function AboutPage() {
   const locale = await getLocale();
@@ -10,6 +15,16 @@ export default async function AboutPage() {
 
   return (
     <div className="relative">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: aboutSeo.title,
+          description: aboutSeo.description,
+          url: absoluteUrl(aboutSeo.path),
+          inLanguage: "zh-Hant-TW"
+        }}
+      />
       <div
         className="hidden md:block absolute inset-0 pointer-events-none z-0"
         style={{
@@ -31,7 +46,7 @@ export default async function AboutPage() {
               {t("about.subtitle")}
             </p>
             <h1 className="text-xl font-serif text-textDark mb-4">
-              {t("about.title")}
+              {locale === "zh-TW" ? "關於信億尉貿易" : t("about.title")}
             </h1>
             <p className="text-sm text-textMuted leading-relaxed">
               {t("about.introBody")}

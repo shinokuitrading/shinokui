@@ -4,6 +4,11 @@ import { ProductCard } from "@/components/ProductCard";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
+import { absoluteUrl, createSeoMetadata, productsSeo } from "@/lib/seo";
+
+export const metadata: Metadata = createSeoMetadata(productsSeo);
 
 export default async function ProductsPage({
   searchParams
@@ -26,11 +31,31 @@ export default async function ProductsPage({
       : all.filter((p) => p.category === category);
 
   return (
-    <Section>
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: productsSeo.title,
+          description: productsSeo.description,
+          url: absoluteUrl(productsSeo.path),
+          inLanguage: "zh-Hant-TW",
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: all.map((product, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              url: absoluteUrl(`/products/${product.slug}`),
+              name: product.name_zh
+            }))
+          }
+        }}
+      />
+      <Section>
       <div className="flex items-center justify-between mb-6 gap-4">
         <div>
           <h1 className="text-xl font-serif text-textDark mb-2">
-            {t("products.title")}
+            {locale === "zh-TW" ? "月之井清酒產品" : t("products.title")}
           </h1>
         </div>
         <CategoryFilter
@@ -54,6 +79,7 @@ export default async function ProductsPage({
           />
         ))}
       </div>
-    </Section>
+      </Section>
+    </>
   );
 }

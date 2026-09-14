@@ -5,25 +5,20 @@ import { getAllNews } from "@/lib/news";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteBaseUrl;
-  const now = new Date().toISOString();
-
   const staticPages: MetadataRoute.Sitemap = [
     "",
     "/about",
     "/brand",
     "/products",
-    "/news",
-    "/privacy"
+    "/news"
   ].map((path) => ({
     url: `${base}${path}`,
-    lastModified: now,
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.6
   }));
 
   const productPages = getAllProducts().map((p) => ({
     url: `${base}/products/${p.slug}`,
-    lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.5
   }));
@@ -33,7 +28,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/brand/shine-muscat"
   ].map((path) => ({
     url: `${base}${path}`,
-    lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.5
   }));
@@ -41,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const newsItems = await getAllNews();
   const newsPages = newsItems.map((n) => ({
     url: `${base}/news/${n.slug}`,
-    lastModified: n.date || now,
+    ...(n.date ? { lastModified: n.date } : {}),
     changeFrequency: "weekly" as const,
     priority: 0.5
   }));
