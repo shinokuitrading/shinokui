@@ -33,12 +33,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const newsItems = await getAllNews();
-  const newsPages = newsItems.map((n) => ({
-    url: `${base}/news/${n.slug}`,
-    ...(n.date ? { lastModified: n.date } : {}),
-    changeFrequency: "weekly" as const,
-    priority: 0.5
-  }));
+  const newsPages = newsItems.map((n) => {
+    let lastModified = n.dateModified || n.date;
+    if (n.dateModified && n.date && n.dateModified < n.date) {
+      console.warn(`[sitemap] ${n.slug}: dateModified precedes date; using publication date.`);
+      lastModified = n.date;
+    }
+
+    return {
+      url: `${base}/news/${n.slug}`,
+      ...(lastModified ? { lastModified } : {}),
+      changeFrequency: "weekly" as const,
+      priority: 0.5
+    };
+  });
 
   return [...staticPages, ...brandPages, ...productPages, ...newsPages];
 }

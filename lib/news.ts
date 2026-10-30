@@ -44,6 +44,25 @@ function getLocalizedValue(
   return data?.[key] ?? fallback;
 }
 
+function getNewsDate(value: unknown, slug: string, field: "date" | "dateModified") {
+  if (value === undefined && field === "dateModified") return undefined;
+
+  const date = value instanceof Date && Number.isFinite(value.getTime())
+    ? value.toISOString().slice(0, 10)
+    : value;
+
+  // Frontmatter dates use YYYY-MM-DD. Reject invalid calendar dates as well.
+  if (typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    const parsed = new Date(`${date}T00:00:00.000Z`);
+    if (Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date) {
+      return date;
+    }
+  }
+
+  console.warn(`[news] ${slug}: missing or invalid ${field}; ignoring this date.`);
+  return undefined;
+}
+
 export async function getAllNews(
   locale: Locale = defaultLocale
 ): Promise<NewsMeta[]> {
@@ -59,14 +78,8 @@ export async function getAllNews(
     const raw = await fs.readFile(resolved.path, "utf8");
     const { data } = matter(raw);
 
-    const rawDate = (data as any).date;
-    let dateString = "";
-
-    if (rawDate instanceof Date) {
-      dateString = rawDate.toISOString().slice(0, 10);
-    } else if (typeof rawDate === "string") {
-      dateString = rawDate;
-    }
+    const dateString = getNewsDate(data.date, slug, "date") ?? "";
+    const dateModified = getNewsDate(data.dateModified, slug, "dateModified");
 
     const title = resolved.localized
       ? (data as any).title ?? slug
@@ -81,7 +94,8 @@ export async function getAllNews(
       date: dateString,
       excerpt,
       seoTitle: (data as any).seoTitle,
-      image: (data as any).image
+      image: (data as any).image,
+      dateModified
     };
 
     posts.push(meta);
