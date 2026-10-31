@@ -7,20 +7,57 @@ import styles from "./ArticleGuide.module.css";
 export function ArticleGuide({
   title,
   date,
+  dateModified,
   children
 }: {
   title: string;
   date: string;
+  dateModified?: string;
   children: ReactNode;
 }) {
   return (
     <article className={styles.guide}>
       <header className={styles.header}>
         <h1 className="font-serif">{title}</h1>
-        <time dateTime={date}>{date}</time>
+        {dateModified ? (
+          <div className={styles.dates}>
+            <span>發布：<time dateTime={date}>{date}</time></span>
+            <span>更新：<time dateTime={dateModified}>{dateModified}</time></span>
+          </div>
+        ) : (
+          <time dateTime={date}>{date}</time>
+        )}
       </header>
       <div className={styles.content}>{children}</div>
     </article>
+  );
+}
+
+export function ArticleProductList({ children }: { children: ReactNode }) {
+  return <ul className={styles.productList}>{children}</ul>;
+}
+
+export async function ArticleProductLink({
+  slug,
+  children
+}: {
+  slug: string;
+  children?: ReactNode;
+}) {
+  const product = getProductBySlug(slug);
+  const locale = await getLocale();
+  if (!product) return null;
+  const name = locale === "ja" ? product.name_jp : product.name_zh;
+
+  return (
+    <li>
+      <a href={`/products/${product.slug}`} className={styles.productLink}>
+        <span className={styles.productThumbnail}>
+          <Image src={encodeURI(product.image)} alt={name} fill sizes="120px" />
+        </span>
+        <span>{children ?? name}</span>
+      </a>
+    </li>
   );
 }
 
@@ -70,7 +107,7 @@ export async function ArticleProduct({
     <div className={styles.product}>
       {product && (
         <Image
-          src={product.image}
+          src={encodeURI(product.image)}
           alt={locale === "ja" ? product.name_jp : product.name_zh}
           width={imageWidth}
           height={imageHeight}

@@ -116,7 +116,11 @@ export default async function NewsDetailPage({
           ]}
         />
         {meta.layout === "guide" ? (
-          <ArticleGuide title={meta.title} date={meta.date}>
+          <ArticleGuide
+            title={meta.title}
+            date={meta.date}
+            dateModified={meta.showUpdated ? meta.dateModified : undefined}
+          >
             {content}
           </ArticleGuide>
         ) : (
