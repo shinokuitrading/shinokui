@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { defaultLocale, Locale } from "@/i18n/config";
+import { ArticleFigure, ArticleProduct } from "@/components/ArticleGuide";
 
 const NEWS_DIR = path.join(process.cwd(), "data", "news");
 
@@ -112,10 +113,12 @@ export async function getNewsBySlug(
   const raw = await fs.readFile(resolved.path, "utf8");
 
   const { content, data } = matter(raw);
+  const layout = data.layout === "guide" ? ("guide" as const) : undefined;
 
   const mdx = await compileMDX({
     source: content,
-    options: { parseFrontmatter: false }
+    options: { parseFrontmatter: false },
+    components: layout === "guide" ? { ArticleFigure, ArticleProduct } : undefined
   });
 
   const rawDate = (data as any).date;
@@ -148,7 +151,8 @@ export async function getNewsBySlug(
         : getLocalizedValue(data, locale, "excerpt", ""),
       seoTitle: (data as any).seoTitle,
       image: (data as any).image,
-      dateModified: dateModified || undefined
+      dateModified: dateModified || undefined,
+      layout
     },
     content: mdx.content
   };
