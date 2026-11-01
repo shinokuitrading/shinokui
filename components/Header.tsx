@@ -25,10 +25,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-30 bg-ivory/90 backdrop-blur border-b border-oceanBrown/10">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 py-3 md:py-4 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-3 md:py-4 flex items-center justify-between gap-4">
         <Link
           href="/"
-          className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oceanBrown/60 rounded-full"
+          className="flex shrink-0 items-center gap-3 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oceanBrown/60 rounded-full"
         >
           <div className="w-9 h-9 rounded-full bg-oceanBrown/90 overflow-hidden flex items-center justify-center">
             <Image
@@ -50,7 +50,7 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-semibold">
+        <nav className="hidden xl:flex items-center gap-6 whitespace-nowrap text-sm font-semibold">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.key}
@@ -66,11 +66,11 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3 whitespace-nowrap">
           <LocaleSwitcher />
           <button
             type="button"
-            className="md:hidden rounded-full border border-oceanBrown/30 px-3 py-1 text-xs text-textMuted hover:text-textDark"
+            className="xl:hidden rounded-full border border-oceanBrown/30 px-3 py-1 text-xs text-textMuted hover:text-textDark"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             onClick={() => setMenuOpen((open) => !open)}
@@ -81,7 +81,7 @@ export function Header() {
       </div>
       <nav
         id="mobile-nav"
-        className={`md:hidden border-t border-oceanBrown/10 ${
+        className={`xl:hidden border-t border-oceanBrown/10 ${
           menuOpen ? "block" : "hidden"
         }`}
       >

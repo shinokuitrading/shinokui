@@ -53,7 +53,7 @@ export async function ArticleProductLink({
     <li>
       <a href={`/products/${product.slug}`} className={styles.productLink}>
         <span className={styles.productThumbnail}>
-          <Image src={encodeURI(product.image)} alt={name} fill sizes="120px" />
+          <Image src={encodeURI(product.image)} alt={name} fill sizes="(max-width: 767px) 96px, 120px" />
         </span>
         <span>{children ?? name}</span>
       </a>
