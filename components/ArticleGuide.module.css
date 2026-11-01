@@ -291,6 +291,23 @@
   margin: 0;
 }
 
+@media (max-width: 767px) {
+  .content table[data-table-layout="comparison"] th,
+  .content table[data-table-layout="comparison"] td {
+    padding-inline: 8px;
+  }
+
+  .content table[data-table-layout="comparison"] th:first-child {
+    width: 5.5rem;
+    white-space: nowrap;
+  }
+
+  .content table[data-table-layout="comparison"] th:nth-child(2),
+  .content table[data-table-layout="comparison"] th:nth-child(3) {
+    width: auto;
+  }
+}
+
 @media (min-width: 768px) {
   .guide {
     padding-top: 48px;
