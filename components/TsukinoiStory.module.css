@@ -96,29 +96,12 @@
   max-width: 560px;
 }
 
-.products {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 32px;
-  background: #fff;
-}
-
-.products img {
-  display: block;
+.lifestyleSlot {
   width: 100%;
-  height: 340px;
-  min-width: 0;
-  object-fit: contain;
-}
-
-.pair {
-  flex-direction: column;
-}
-
-.pair img {
-  height: 300px;
+  max-width: 640px;
+  margin-inline: auto;
+  aspect-ratio: 4 / 3;
+  background: #eee9e0;
 }
 
 .closing {
@@ -151,18 +134,6 @@
   .chapter {
     max-width: 720px;
     margin-inline: auto;
-  }
-
-  .products img {
-    height: 420px;
-  }
-
-  .pair {
-    flex-direction: row;
-  }
-
-  .pair img {
-    width: calc(50% - 16px);
   }
 
   .closing {
