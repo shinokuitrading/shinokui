@@ -20,7 +20,7 @@ export function TsukinoiStory({
     <Image key="brewery" className={`${styles.photo} ${styles.exterior}`} src="/images/brand/tsukinoi/tsukinoi-brewery-exterior.jpg" alt="月之井酒造店酒藏外觀" width={5160} height={3440} sizes="(min-width: 1280px) 468px, (min-width: 768px) 640px, 100vw" />,
     <Image key="coast" className={`${styles.photo} ${styles.coast}`} src="/images/brand/tsukinoi/tsukinoi-oarai-coast.jpg" alt="月之井酒瓶與礫石海岸" width={700} height={700} sizes="(min-width: 1280px) 468px, (min-width: 768px) 560px, 100vw" />,
     <Image key="koji" className={styles.photo} src="/images/brand/tsukinoi/tsukinoi-koji-tray.jpg" alt="雙手在木製麹蓋中整理米麹" width={920} height={613} sizes="(min-width: 1280px) 468px, (min-width: 768px) 640px, 100vw" />,
-    <Image key="daily-life" className={`${styles.photo} ${styles.lifestyle}`} src="/images/brand/tsukinoi/tsukinoi-sake-table.jpg" alt="月之井日本酒搭配酒器與料理的餐桌情境" width={750} height={1064} sizes="(min-width: 1280px) 468px, (min-width: 768px) 640px, 100vw" />
+    <Image key="daily-life" className={`${styles.photo} ${styles.lifestyle}`} src="/images/brand/tsukinoi/tsukinoi-sake-table.jpg" alt="月之井日本酒搭配酒器與料理的餐桌情境" width={750} height={1064} sizes="(min-width: 1280px) 468px, (min-width: 768px) 480px, 100vw" />
   ];
 
   return (

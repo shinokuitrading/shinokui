@@ -98,6 +98,7 @@
 
 .lifestyle {
   object-fit: cover;
+  object-position: 50% 50%;
 }
 
 .closing {
@@ -130,6 +131,13 @@
   .chapter {
     max-width: 720px;
     margin-inline: auto;
+  }
+
+  .lifestyle {
+    max-width: 480px;
+    aspect-ratio: 4 / 5;
+    /* Keep the bottle neck at the source image's top edge and crop the table. */
+    object-position: 50% 0%;
   }
 
   .closing {
