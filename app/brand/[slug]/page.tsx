@@ -5,6 +5,7 @@ import { BrandImageCarousel } from "@/components/BrandImageCarousel";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
+import { TsukinoiStory } from "@/components/TsukinoiStory";
 import { RelatedReading } from "@/components/RelatedReading";
 import { absoluteUrl, createSeoMetadata, siteBaseUrl } from "@/lib/seo";
 import { getPublishedBrand, getPublishedBrands } from "@/data/brands";
@@ -130,41 +131,11 @@ export default async function BrandDetailPage({
     return (
       <>
         <JsonLd data={structuredData} />
-        <Section>
-        <h1 className="text-xl font-serif text-textDark mb-6">
-          {t("brandIntro.cardTitle")}
-        </h1>
-        <div className="border border-oceanBrown/10 rounded-xl overflow-hidden bg-ivory/60">
-          <div className="relative aspect-[4/3] bg-oceanBrown/5">
-            <Image
-              src="/images/tsukinoi_logo.jpeg"
-              alt={t("brandIntro.cardTitle")}
-              fill
-              sizes="(min-width: 768px) 40vw, 90vw"
-              className="object-contain p-6"
-            />
-          </div>
-          <div className="px-6 py-6 space-y-5 text-sm text-textMuted leading-relaxed">
-            <div>
-              <p className="text-base font-semibold text-textDark">
-                {t("brandIntro.cardTitle")}
-              </p>
-            </div>
-            <p>{t("brandIntro.intro")}</p>
-            {(t.raw("brandIntro.sections") as BrandSection[]).map(
-              (section, idx) => (
-                <div key={idx} className="space-y-2">
-                  <p className="text-sm font-semibold text-textDark">
-                    {section.heading}
-                  </p>
-                  {section.body.map((line, lineIdx) => (
-                    <p key={lineIdx}>{line}</p>
-                  ))}
-                </div>
-              )
-            )}
-          </div>
-        </div>
+        <TsukinoiStory
+          title={t("brandIntro.cardTitle")}
+          intro={t("brandIntro.intro")}
+          sections={t.raw("brandIntro.sections") as BrandSection[]}
+        >
         <RelatedReading
           title="月之井酒造與日本酒知識"
           items={[
@@ -190,7 +161,7 @@ export default async function BrandDetailPage({
             }
           ]}
         />
-        </Section>
+        </TsukinoiStory>
       </>
     );
   }

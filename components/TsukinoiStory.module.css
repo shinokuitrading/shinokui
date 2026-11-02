@@ -1,0 +1,233 @@
+.story {
+  color: #2c241f;
+  background: #f6f3ed;
+}
+
+.heroImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 65% center;
+}
+
+.heroText {
+  padding: 32px 24px 0;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.heroText h1 {
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: clamp(30px, 3.3vw, 46px);
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  margin: 0 0 24px;
+}
+
+.brandName {
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  color: #7a5c4a;
+  margin-bottom: 16px;
+}
+
+.intro,
+.copy p {
+  font-size: 17px;
+  line-height: 2;
+  overflow-wrap: break-word;
+}
+
+.chapters {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.chapter {
+  display: grid;
+  gap: 28px;
+  padding-top: 72px;
+  min-width: 0;
+}
+
+.copy {
+  min-width: 0;
+}
+
+.copy h2 {
+  font-family: Georgia, "Noto Serif TC", serif;
+  font-size: clamp(24px, 2.2vw, 30px);
+  line-height: 1.65;
+  letter-spacing: 0.06em;
+  margin: 0 0 24px;
+  text-wrap: pretty;
+}
+
+.copy h2::before {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: #a88e7c;
+  margin-bottom: 24px;
+}
+
+.copy p + p {
+  margin-top: 20px;
+}
+
+.media {
+  min-width: 0;
+}
+
+.logo {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 36px;
+  background: #fff;
+}
+
+.logo img,
+.landscape {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 32px;
+  background: #fff;
+}
+
+.products img {
+  display: block;
+  width: 100%;
+  height: 340px;
+  min-width: 0;
+  object-fit: contain;
+}
+
+.pair {
+  flex-direction: column;
+}
+
+.pair img {
+  height: 300px;
+}
+
+.closing {
+  margin-top: 72px;
+  padding: 48px 24px;
+  background: #eee9e0;
+}
+
+.reading {
+  max-width: 1200px;
+  padding: 32px 24px 0;
+  margin: 0 auto;
+}
+
+.reading aside {
+  margin-top: 0;
+  padding-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .heroText {
+    padding-inline: 40px;
+  }
+
+  .chapters,
+  .reading {
+    padding-inline: 48px;
+  }
+
+  .chapter {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .products img {
+    height: 420px;
+  }
+
+  .pair {
+    flex-direction: row;
+  }
+
+  .pair img {
+    width: calc(50% - 16px);
+  }
+
+  .closing {
+    padding: 56px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    position: relative;
+    min-height: 560px;
+    height: 72vh;
+    max-height: 800px;
+  }
+
+  .heroImage {
+    height: 100%;
+    object-position: center top;
+  }
+
+  .heroText {
+    position: absolute;
+    left: max(48px, calc((100% - 1104px) / 2));
+    bottom: 40px;
+    width: 540px;
+    max-width: calc(100% - 96px);
+    padding: 32px 40px;
+    background: rgb(246 243 237 / 95%);
+  }
+
+  .chapter {
+    max-width: none;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: 64px;
+    padding-top: 104px;
+  }
+
+  .reverse {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .reverse .copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .reverse .media {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .closing {
+    display: block;
+    margin-top: 104px;
+    padding: 72px;
+  }
+
+  .closing .copy {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .reading {
+    padding-top: 64px;
+  }
+}
