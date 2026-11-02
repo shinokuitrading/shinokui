@@ -17,13 +17,9 @@ export function TsukinoiStory({
   children: ReactNode;
 }) {
   const media = [
-    <div key="logo" className={styles.logo}>
-      <Image src="/images/tsukinoi_logo.jpeg" alt={title} width={1351} height={1351} sizes="(min-width: 1024px) 380px, 70vw" />
-    </div>,
-    <Image key="sea" className={styles.landscape} src="/images/news/tsukinoi/tsukinoi-seaside-sake.png" alt="窗邊木桌上的米色酒器與海面情境示意" width={1536} height={1024} sizes="(min-width: 1024px) 45vw, 100vw" />,
-    <div key="wanotsuki" className={styles.products}>
-      <Image src={encodeURI("/images/和の月39.jpg")} alt="和の月39的藍色酒瓶與金色盒裝" width={2787} height={4631} sizes="(min-width: 1024px) 300px, 70vw" />
-    </div>,
+    <Image key="brewery" className={`${styles.photo} ${styles.exterior}`} src="/images/brand/tsukinoi/tsukinoi-brewery-exterior.jpg" alt="月之井酒造店酒藏外觀" width={5160} height={3440} sizes="(min-width: 1280px) 468px, (min-width: 768px) 640px, 100vw" />,
+    <Image key="coast" className={`${styles.photo} ${styles.coast}`} src="/images/brand/tsukinoi/tsukinoi-oarai-coast.jpg" alt="月之井酒瓶與礫石海岸" width={700} height={700} sizes="(min-width: 1280px) 468px, (min-width: 768px) 560px, 100vw" />,
+    <Image key="koji" className={styles.photo} src="/images/brand/tsukinoi/tsukinoi-koji-tray.jpg" alt="雙手在木製麹蓋中整理米麹" width={920} height={613} sizes="(min-width: 1280px) 468px, (min-width: 768px) 640px, 100vw" />,
     <div key="hikoichi" className={`${styles.products} ${styles.pair}`}>
       <Image src={encodeURI("/images/彦市 純米大吟醸.jpg")} alt="彦市純米大吟釀酒瓶" width={1607} height={4823} sizes="(min-width: 1024px) 180px, 40vw" />
       <Image src={encodeURI("/images/彦市純吟.jpg")} alt="彦市純米吟釀酒瓶" width={1437} height={4359} sizes="(min-width: 1024px) 180px, 40vw" />

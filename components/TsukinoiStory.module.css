@@ -7,7 +7,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: 65% center;
 }
@@ -55,6 +55,7 @@
 
 .copy {
   min-width: 0;
+  max-width: 640px;
 }
 
 .copy h2 {
@@ -83,18 +84,16 @@
   min-width: 0;
 }
 
-.logo {
-  max-width: 380px;
-  margin: 0 auto;
-  padding: 36px;
-  background: #fff;
-}
-
-.logo img,
-.landscape {
+.photo {
   display: block;
   width: 100%;
   height: auto;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.coast {
+  max-width: 560px;
 }
 
 .products {
@@ -193,13 +192,21 @@
     padding: 32px 40px;
     background: rgb(246 243 237 / 95%);
   }
+}
 
+@media (min-width: 1280px) {
   .chapter {
     max-width: none;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     align-items: center;
     gap: 64px;
     padding-top: 104px;
+  }
+
+  .exterior {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 65% center;
   }
 
   .reverse {
