@@ -96,12 +96,8 @@
   max-width: 560px;
 }
 
-.lifestyleSlot {
-  width: 100%;
-  max-width: 640px;
-  margin-inline: auto;
-  aspect-ratio: 4 / 3;
-  background: #eee9e0;
+.lifestyle {
+  object-fit: cover;
 }
 
 .closing {
