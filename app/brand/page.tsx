@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { absoluteUrl, createSeoMetadata } from "@/lib/seo";
+import { getPublishedBrands } from "@/data/brands";
 
 const brandPageSeo = {
   title: "品牌介紹｜月之井酒造店與日本精選品牌｜信億尉貿易",
@@ -20,23 +21,11 @@ export const metadata: Metadata = createSeoMetadata(brandPageSeo);
 export default async function BrandPage() {
   const t = await getTranslations();
 
-  const brands = [
-    {
-      slug: "tsukinoi",
-      title: t("brandIntro.cardTitle"),
-      image: "/images/tsukinoi_logo.jpeg",
-      imageClassName: "object-contain p-6",
-      subtitle: null
-    },
-    {
-      slug: "shine-muscat",
-      title: t("brandIntro.shineMuscat.cardTitle"),
-      image: "/images/shine-muscat-05.jpg",
-      imageClassName:
-        "object-cover object-center group-hover:scale-[1.02] transition-transform",
-      subtitle: t("brandIntro.shineMuscat.subtitle")
-    }
-  ];
+  const brands = getPublishedBrands().map((brand) => ({
+    ...brand,
+    title: t(brand.titleKey),
+    subtitle: brand.subtitleKey ? t(brand.subtitleKey) : null
+  }));
 
   return (
     <>

@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedReading } from "@/components/RelatedReading";
 import { absoluteUrl, createSeoMetadata, siteBaseUrl } from "@/lib/seo";
+import { getPublishedBrand, getPublishedBrands } from "@/data/brands";
 
 const shineMuscatImages = [
   "/images/shine-muscat-01.jpg",
@@ -31,7 +32,7 @@ type ShineMuscatContent = {
 };
 
 export function generateStaticParams() {
-  return [{ slug: "tsukinoi" }, { slug: "shine-muscat" }];
+  return getPublishedBrands().map(({ slug }) => ({ slug }));
 }
 
 const brandSeo = {
@@ -58,6 +59,8 @@ export function generateMetadata({
 }: {
   params: { slug: string };
 }): Metadata {
+  if (!getPublishedBrand(params.slug)) notFound();
+
   const seo = brandSeo[params.slug as keyof typeof brandSeo];
   if (!seo) {
     return createSeoMetadata({
@@ -79,6 +82,8 @@ export default async function BrandDetailPage({
 }: {
   params: { slug: string };
 }) {
+  if (!getPublishedBrand(params.slug)) notFound();
+
   const t = await getTranslations();
   const seo = brandSeo[params.slug as keyof typeof brandSeo];
 

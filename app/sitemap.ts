@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { siteBaseUrl } from "@/lib/seo";
 import { getAllProducts } from "@/lib/products";
 import { getAllNews } from "@/lib/news";
+import { getPublishedBrands } from "@/data/brands";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteBaseUrl;
@@ -23,11 +24,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5
   }));
 
-  const brandPages: MetadataRoute.Sitemap = [
-    "/brand/tsukinoi",
-    "/brand/shine-muscat"
-  ].map((path) => ({
-    url: `${base}${path}`,
+  const brandPages: MetadataRoute.Sitemap = getPublishedBrands().map(({ slug }) => ({
+    url: `${base}/brand/${slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.5
   }));
