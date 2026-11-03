@@ -1,0 +1,209 @@
+.root {
+  position: fixed;
+  left: 2px;
+  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  color: #7a5c4a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.root[hidden],
+.panel[hidden],
+:global(body:has([aria-modal="true"])) .root,
+:global(body:has([aria-controls="mobile-nav"][aria-expanded="true"])) .root {
+  display: none;
+}
+
+.trigger,
+.panel {
+  border: 1px solid rgb(122 92 74 / 25%);
+  background: #f6f3ed;
+  box-shadow: 0 4px 18px rgb(58 43 32 / 10%);
+}
+
+.trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 44px;
+  border-radius: 8px 22px 22px 8px;
+}
+
+/* Keep the visible control in the gutter, with a 44px touch target. */
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0 -16px 0 0;
+}
+
+.trigger svg,
+.close svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.triggerLabel {
+  display: none;
+}
+
+.panel {
+  position: absolute;
+  left: 10px;
+  bottom: 56px;
+  width: min(310px, calc(100vw - 24px));
+  max-height: calc(100dvh - 220px - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 16px;
+  padding: 16px;
+  animation: reveal 180ms ease-out;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.heading h2 {
+  font-size: 16px;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.label {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.social {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid rgb(122 92 74 / 15%);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.social a {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.trigger:hover,
+.close:hover,
+.links a:hover {
+  background: #eee7dd;
+}
+
+.root button:focus-visible,
+.root a:focus-visible {
+  outline: 2px solid #7a5c4a;
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .root {
+    left: 0;
+  }
+
+  .trigger {
+    width: 20px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 2px 6px rgb(58 43 32 / 8%);
+  }
+
+  .trigger::after {
+    right: -24px;
+  }
+
+  .trigger svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .trigger:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .panel {
+    left: 12px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .root {
+    left: 16px;
+    top: 55%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  .trigger {
+    width: 48px;
+    height: auto;
+    min-height: 144px;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 10px;
+    border-radius: 28px;
+  }
+
+  .triggerLabel {
+    display: block;
+    writing-mode: vertical-rl;
+    letter-spacing: 0.12em;
+  }
+
+  .trigger::after {
+    display: none;
+  }
+
+  .panel {
+    left: 60px;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    max-height: calc(100dvh - 180px);
+  }
+}
+
+@keyframes reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; }
+}
