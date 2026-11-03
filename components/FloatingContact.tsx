@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import site from "@/data/site.json";
+import { InstagramIcon } from "./InstagramIcon";
 import styles from "./FloatingContact.module.css";
 
 export function FloatingContact() {
@@ -48,11 +50,6 @@ export function FloatingContact() {
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
-
-  const phones = [
-    { label: "footer.telTwLabel", value: site.phoneTaiwan ?? site.phone },
-    { label: "footer.telJpLabel", value: site.phoneJapan }
-  ];
 
   return (
     <div
@@ -107,23 +104,22 @@ export function FloatingContact() {
               <span>{site.email}</span>
             </a>
           </li>
-          {phones.map(({ label, value }) => (
-            <li key={label}>
-              <a href={`tel:${value.replace(/[\s-]/g, "")}`}>
-                <span className={styles.label}>{t(label)}</span>
-                <span>{value}</span>
+          {(["line", "instagram"] as const).map((name) => (
+            <li key={name} className={styles.social}>
+              <a href={site.social[name]} target="_blank" rel="noopener noreferrer">
+                <span className={styles.socialIcon}>
+                  {name === "line" ? (
+                    <Image src="/images/lineoa.png" alt="" width={24} height={24} />
+                  ) : (
+                    <InstagramIcon idPrefix="floating-contact-instagram" />
+                  )}
+                </span>
+                <span>{t(`footer.${name}Label`)}</span>
+                <span className="sr-only">({t("footer.opensNewTab")})</span>
+                <span className={styles.externalArrow} aria-hidden="true">↗</span>
               </a>
             </li>
           ))}
-          <li className={styles.social}>
-            {(["line", "instagram"] as const).map((name) => (
-              <a key={name} href={site.social[name]} target="_blank" rel="noopener noreferrer">
-                {t(`footer.${name}Label`)}
-                <span className="sr-only">({t("footer.opensNewTab")})</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            ))}
-          </li>
         </ul>
       </section>
     </div>

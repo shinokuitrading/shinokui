@@ -105,20 +105,27 @@
   margin-bottom: 2px;
 }
 
-.social {
-  display: flex;
-  gap: 8px;
+.links > li:first-child + .social {
   border-top: 1px solid rgb(122 92 74 / 15%);
   margin-top: 8px;
   padding-top: 8px;
 }
 
 .social a {
-  flex: 1;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.socialIcon {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.externalArrow {
+  margin-left: auto;
 }
 
 .trigger:hover,
