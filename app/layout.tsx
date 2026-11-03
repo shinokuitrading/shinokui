@@ -9,6 +9,7 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AgeGate } from "@/components/AgeGate";
+import { ContactPanelProvider } from "@/components/ContactPanelProvider";
 import { FloatingContact } from "@/components/FloatingContact";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
@@ -34,11 +35,13 @@ export default async function RootLayout({
     <html lang={locale === "ja" ? "ja-JP" : "zh-Hant-TW"}>
       <body className="min-h-screen flex flex-col bg-ivory bg-ocean-lines">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingContact />
-          <AgeGate />
+          <ContactPanelProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <FloatingContact />
+            <AgeGate />
+          </ContactPanelProvider>
         </NextIntlClientProvider>
       </body>
     </html>

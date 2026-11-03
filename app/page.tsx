@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/Section";
 import { OceanDivider } from "@/components/OceanDivider";
-import { Button, buttonStyles } from "@/components/buttons";
+import { ContactPanelButton } from "@/components/ContactPanelProvider";
+import { buttonStyles } from "@/components/buttons";
 import { getAllProducts } from "@/lib/products";
 import { getAllNews } from "@/lib/news";
 import { ProductCard } from "@/components/ProductCard";
@@ -32,7 +33,6 @@ export default async function HomePage() {
     string,
     string
   >;
-  const contactHref = "#contact";
 
   return (
     <>
@@ -75,15 +75,15 @@ export default async function HomePage() {
               {t("home.heroSubtitle")}
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link
-                href={contactHref}
-                className={buttonStyles({ variant: "primary" })}
+              <ContactPanelButton>{t("cta.consult")}</ContactPanelButton>
+              <a
+                href="/downloads/shin-okui-product-catalog.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonStyles({ variant: "outline", className: "whitespace-nowrap" })}
               >
-                {t("cta.consult")}
-              </Link>
-              <Button variant="outline">
                 {t("cta.catalog")}
-              </Button>
+              </a>
             </div>
           </div>
           <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden bg-oceanBrown/5">

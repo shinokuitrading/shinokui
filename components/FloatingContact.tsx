@@ -6,20 +6,20 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import site from "@/data/site.json";
 import { InstagramIcon } from "./InstagramIcon";
+import { useContactPanel } from "./ContactPanelProvider";
 import styles from "./FloatingContact.module.css";
 
 export function FloatingContact() {
   const t = useTranslations();
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const { open, openPanel, closePanel } = useContactPanel();
   const [footerVisible, setFooterVisible] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    closePanel();
+  }, [pathname, closePanel]);
 
   useEffect(() => {
     const contact = document.querySelector("#contact nav");
@@ -35,12 +35,11 @@ export function FloatingContact() {
     if (!open) return;
     firstLinkRef.current?.focus({ preventScroll: true });
     const onPointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!rootRef.current?.contains(event.target as Node)) closePanel();
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
-        triggerRef.current?.focus({ preventScroll: true });
+        closePanel(true);
       }
     };
     document.addEventListener("pointerdown", onPointerDown);
@@ -49,7 +48,7 @@ export function FloatingContact() {
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [open, closePanel]);
 
   return (
     <div
@@ -57,17 +56,16 @@ export function FloatingContact() {
       className={styles.root}
       hidden={pathname === "/contact" || (footerVisible && !open)}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+        if (!event.currentTarget.contains(event.relatedTarget)) closePanel();
       }}
     >
       <button
-        ref={triggerRef}
         type="button"
         className={styles.trigger}
         aria-label={t("nav.contact")}
         aria-expanded={open}
         aria-controls="floating-contact-panel"
-        onClick={() => setOpen((value) => !value)}
+        onClick={(event) => open ? closePanel() : openPanel(event.currentTarget)}
       >
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <rect x="3" y="5" width="18" height="14" rx="3" />
@@ -88,8 +86,7 @@ export function FloatingContact() {
             className={styles.close}
             aria-label={t("common.close")}
             onClick={() => {
-              setOpen(false);
-              triggerRef.current?.focus({ preventScroll: true });
+              closePanel(true);
             }}
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
