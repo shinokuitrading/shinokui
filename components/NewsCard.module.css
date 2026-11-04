@@ -1,0 +1,107 @@
+.card {
+  min-width: 0;
+  height: 100%;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(122 92 74 / 15%);
+  border-radius: 16px;
+  background: rgb(246 243 237 / 80%);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #eae4da;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 200ms ease;
+}
+
+/* Product photography retains the complete bottle and packaging. */
+.media[data-fit="contain"] {
+  background: #fff;
+}
+
+.media[data-fit="contain"] .image {
+  object-fit: contain;
+  padding: 16px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
+}
+
+.date {
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.title {
+  margin-bottom: 12px;
+  color: #222;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.readMore {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: #7a5c4a;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.link:focus-visible {
+  outline: 3px solid #7a5c4a;
+  outline-offset: 4px;
+}
+
+@media (hover: hover) {
+  .link:hover {
+    transform: translateY(-3px);
+    border-color: rgb(122 92 74 / 40%);
+    box-shadow: 0 8px 24px rgb(58 43 32 / 8%);
+  }
+
+  .link:hover .image {
+    transform: scale(1.015);
+  }
+}
+
+@media (min-width: 768px) {
+  .content { padding: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link, .image { transition: none; }
+  .link:hover, .link:hover .image { transform: none; }
+}

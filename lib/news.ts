@@ -14,6 +14,8 @@ export type NewsMeta = {
   excerpt: string;
   seoTitle?: string;
   image?: string;
+  // List presentation only; keep the article's SEO image independent.
+  thumbnail?: { src: string; position?: string; fit?: "cover" | "contain" };
   dateModified?: string;
 };
 
@@ -78,6 +80,9 @@ export async function getAllNews(
     const resolved = await resolveNewsPath(slug, locale);
     const raw = await fs.readFile(resolved.path, "utf8");
     const { data } = matter(raw);
+    const thumbnail = data.thumbnail ?? (resolved.localized
+      ? matter(await fs.readFile(path.join(NEWS_DIR, `${slug}.mdx`), "utf8")).data.thumbnail
+      : undefined);
 
     const dateString = getNewsDate(data.date, slug, "date") ?? "";
     const dateModified = getNewsDate(data.dateModified, slug, "dateModified");
@@ -96,6 +101,13 @@ export async function getAllNews(
       excerpt,
       seoTitle: (data as any).seoTitle,
       image: (data as any).image,
+      thumbnail: thumbnail && typeof thumbnail.src === "string" && thumbnail.src.trim()
+        ? {
+            src: thumbnail.src,
+            position: typeof thumbnail.position === "string" ? thumbnail.position : undefined,
+            fit: thumbnail.fit === "contain" ? "contain" as const : "cover" as const
+          }
+        : undefined,
       dateModified
     };
 
