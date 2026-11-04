@@ -12,8 +12,28 @@ export function NewsCard({ item, labelReadMore }: Props) {
   return (
     <article className={styles.card}>
       <Link href={`/news/${item.slug}`} className={styles.link} aria-label={item.title}>
-        <div className={styles.media} data-fit={item.thumbnail?.fit} aria-hidden="true">
-          {item.thumbnail && (
+        <div
+          className={styles.media}
+          data-fit={item.thumbnail?.type === "image" ? item.thumbnail.fit : undefined}
+          data-collage={item.thumbnail?.type === "products" ? "products" : undefined}
+          aria-hidden="true"
+        >
+          {item.thumbnail?.type === "products" && (
+            <div className={styles.lineup}>
+              {item.thumbnail.products.map((product) => (
+                <div key={product.slug} className={styles.product}>
+                  <Image
+                    src={encodeURI(product.image)}
+                    alt=""
+                    fill
+                    sizes="(max-width: 767px) 28vw, 170px"
+                    className={styles.productImage}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {item.thumbnail?.type === "image" && (
             <Image
               src={encodeURI(item.thumbnail.src)}
               alt=""

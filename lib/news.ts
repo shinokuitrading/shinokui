@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { defaultLocale, Locale } from "@/i18n/config";
 import { ArticleFigure, ArticleProduct, ArticleProductList, ArticleProductLink } from "@/components/ArticleGuide";
+import { getProductBySlug } from "@/lib/products";
 
 const NEWS_DIR = path.join(process.cwd(), "data", "news");
 
@@ -15,7 +16,9 @@ export type NewsMeta = {
   seoTitle?: string;
   image?: string;
   // List presentation only; keep the article's SEO image independent.
-  thumbnail?: { src: string; position?: string; fit?: "cover" | "contain" };
+  thumbnail?:
+    | { type: "image"; src: string; position?: string; fit?: "cover" | "contain" }
+    | { type: "products"; products: Array<{ slug: string; image: string }> };
   dateModified?: string;
 };
 
@@ -101,8 +104,21 @@ export async function getAllNews(
       excerpt,
       seoTitle: (data as any).seoTitle,
       image: (data as any).image,
-      thumbnail: thumbnail && typeof thumbnail.src === "string" && thumbnail.src.trim()
+      thumbnail: Array.isArray(thumbnail?.products)
         ? {
+            type: "products" as const,
+            products: thumbnail.products.flatMap((productSlug: unknown) => {
+              const product = typeof productSlug === "string" ? getProductBySlug(productSlug) : undefined;
+              if (!product) {
+                console.warn(`[news] ${slug}: unknown thumbnail product ${productSlug}; ignoring it.`);
+                return [];
+              }
+              return [{ slug: product.slug, image: product.image }];
+            })
+          }
+        : thumbnail && typeof thumbnail.src === "string" && thumbnail.src.trim()
+        ? {
+            type: "image" as const,
             src: thumbnail.src,
             position: typeof thumbnail.position === "string" ? thumbnail.position : undefined,
             fit: thumbnail.fit === "contain" ? "contain" as const : "cover" as const
