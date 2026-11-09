@@ -67,6 +67,16 @@
   object-fit: contain;
 }
 
+@media (max-width: 767px) {
+  /* Enlarge both axes by 10% without introducing a blending context. */
+  .lineup { inset: 0.5% -1.7%; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Enlarge both axes by 8%; desktop keeps the original inset. */
+  .lineup { inset: 1.4% -0.76%; }
+}
+
 .content {
   display: flex;
   flex-direction: column;
